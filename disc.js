@@ -31,17 +31,18 @@ client.DisTube = new DisTube(client, {
 })
 client.on('ready', async () => {
 
-    const guild = await client.guilds.fetch('1027899438091468810')
+    // const guild = await client.guilds.fetch('1027899438091468810')
+    const guild = await client.guilds.fetch('899373576698888222')
     const members = await guild.members.fetch() // returns Collection
-    console.log(members.map(pao => {
-        return pao.user.id
+    // console.log(members.map(pao => {
+    //     return pao.user.id
 
-    }))
+    // }))
 
-    // console.log(`Logged in as ${client.user.tag}!`);
-    // var id = '398917790800805921'
-    // let user = await client.users.fetch(id);
-    // user.send('😍 OWW VEM CONHECER A CIDADE "MAGNUS RP" E AINDA GANHAR UMA 🛒"LAMBORGHINI HURACAN" DO VIP GRÁTIS...😉 TRAGA AMIGOS PARA CIDADE, E GANHE PRESENTES EXCLUSIVOS 🎉 https://discord.gg/3xetwB6Z')
+    console.log(`Logged in as ${client.user.tag}!`);
+    var id = '553640538209779713'
+    let user = await client.users.fetch(id);
+    user.send('Estou Online !!! ❤')
     // console.log(user)
 
 
@@ -60,18 +61,18 @@ client.on('ready', () => {
 client.on('messageCreate', async message => {
 
     if (!message.author.bot && message.content.startsWith("%%%%%%")) {
-        const guild = await client.guilds.fetch('1027899438091468810')
-        // const guild = await client.guilds.fetch('899373576698888222')
+        // const guild = await client.guilds.fetch('1027899438091468810')
+        const guild = await client.guilds.fetch('899373576698888222')
         const members = await guild.members.fetch() // returns Collection
         members.map(async pao => {
             let user = await client.users.fetch(pao.user.id);
-           
-                user.send(message.content).catch(e=>{
-                    console.log('Não foi possivel enviar para:', pao.user.username)
-                })
-                console.log('enviado para :', pao.user.username)
-        
-              
+
+            user.send(message.content).catch(e => {
+                console.log('Não foi possivel enviar para:', pao.user.username)
+            })
+            console.log('enviado para :', pao.user.username)
+
+
 
 
             return pao.user.id
@@ -87,26 +88,27 @@ client.on('messageCreate', async message => {
 });
 client.on('messageCreate', async message => {
 
-    const prefix = "<@"
+
+    const prefix = "$"
     if (!message.author.bot || message.guild) {
         if (message.content.toString().startsWith(prefix)) {
+            console.log(message.author.username, "#", message.author.discriminator, ":")
+            console.log(message.content)
             const args = message.content.slice(prefix.length).trim().split(/ +/g)
             try {
 
                 const select = args.shift().toLowerCase()
                 const q = client.DisTube.getQueue(message.guild.id)
                 if (select == "play") {
-                    try {
-                        if (args.length >= 1) {
+                    if (args.length >= 1 && message.member.voice.channel && message.channel) {
 
-                            client.DisTube.play(message.member.voice.channel, args.join(" "), {
-                                member: message.member,
-                                textChannel: message.channel,
-                                message
-                            })
-                        } else { message.reply("para adicionar uma música, utilize: $play nome_da_música") }
+                        client.DisTube.play(message.member.voice.channel, args.join(" "), {
+                            member: message.member,
+                            textChannel: message.channel,
+                            message
+                        }).catch(r => message.reply("Não é possivel adicionar playlist brother <3 "))
+                    } else { message.reply("para adicionar uma música, utilize: $play nome_da_música") }
 
-                    } catch (error) { message.reply("Playlists não são suportadas") } message.reply("musica iniciada")
                     return 0
                 }
                 if (select == "pause") {
@@ -139,8 +141,8 @@ ${prefix}stop - parar totalmente
 `)
                 return 0
             } catch (error) {
-                console.log(error);
-                message.reply("Ocorreu algum erro.")
+              
+                message.reply("Ocorreu algum erro: "+ error.toString())
             }
         }
     }
@@ -150,10 +152,15 @@ client.DisTube.on("playSong", async (queue, song) => {
     try {
         const embed = new Discord.EmbedBuilder()
             .setTitle(song.name)
-        queue.textChannel.send({ embeds: [embed] })
+            .setImage(song.thumbnail)
+        queue.textChannel.send({ embeds: [embed] });
+        console.log("musica:", song.name)
+        console.log("link: ", song.url)
+
 
     } catch (error) {
         console.log(error);
+
     }
 
     // console.log(queue.textChannel);
@@ -162,4 +169,4 @@ client.DisTube.on("playSong", async (queue, song) => {
 
     // console.log(queue.textChannel.lastMessageId);
 })
-client.login('MTA3NjYyMzA1NTg4OTExNzM0Nw.GUlkvn.3ZGfzUKbo7oaoZA6_7SEsEike6JOAVxSiTS1d8');
+client.login('MTA3Njg1MTU5NDMyNDM0OTA0OQ.GsQku9.35flTrt6U70vFbz1EEy49jKQDN_2oJxKYUzYFQ');
