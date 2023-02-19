@@ -131,4 +131,4 @@ client.DisTube.on("playSong", async (queue, song) => {
 
     // console.log(queue.textChannel.lastMessageId);
 })
-client.login('MTA3NjYyMzA1NTg4OTExNzM0Nw.GXNxm8.2ZmnTz0mXeBZvSrhGHDoYselc82INkgTxGKmok');
+client.login('MTA3NjYyMzA1NTg4OTExNzM0Nw.GUlkvn.3ZGfzUKbo7oaoZA6_7SEsEike6JOAVxSiTS1d8');
